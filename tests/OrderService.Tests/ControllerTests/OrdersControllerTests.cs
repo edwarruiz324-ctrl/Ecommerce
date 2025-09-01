@@ -1,5 +1,7 @@
 ﻿namespace OrderService.Tests.ControllerTests
 {
+    using Common.Constants;
+    using Common.Exceptions;
     using FluentAssertions;
     using MediatR;
     using Microsoft.AspNetCore.Mvc;
@@ -135,7 +137,8 @@
             // Assert
             var badRequest = result as BadRequestObjectResult;
             badRequest.Should().NotBeNull();
-            badRequest!.Value.Should().Be("El ID no coincide");
+            //badRequest!.Value.Should().Be(ErrorMessages.IdNotMatch);
+            Assert.Contains(ErrorMessages.IdNotMatch, badRequest!.Value!.ToString());
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿namespace OrderService.Tests.ApplicationTest
 {
+    using Common.Exceptions;
     using Moq;
     using OrderService.Application.Commands;
     using OrderService.Application.Contracts;
@@ -58,7 +59,7 @@
 
             var cmd = new CreateOrderCommand("c1", new List<CreateOrderItemDto> { new CreateOrderItemDto(1, 1, 10) });
 
-            await Assert.ThrowsAsync<InvalidOperationException>(() => handler.Handle(cmd, CancellationToken.None));
+            await Assert.ThrowsAsync<CustomException>(() => handler.Handle(cmd, CancellationToken.None));
         }
 
         [Fact]
@@ -74,7 +75,7 @@
             var handler = new CreateOrderHandler(repoMock.Object, uowMock.Object, productClientMock.Object);
             var cmd = new CreateOrderCommand("c1", new List<CreateOrderItemDto> { new CreateOrderItemDto(1, 1, 10) });
 
-            await Assert.ThrowsAsync<InvalidOperationException>(() => handler.Handle(cmd, CancellationToken.None));
+            await Assert.ThrowsAsync<CustomException>(() => handler.Handle(cmd, CancellationToken.None));
         }
     }
 }

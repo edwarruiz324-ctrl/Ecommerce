@@ -1,5 +1,6 @@
 namespace ProductService.Tests.DomainTest;
 
+using Common.Exceptions;
 using ProductService.Domain.Entities;
 using Xunit;
 
@@ -63,7 +64,7 @@ public class ProductDomainTests
             var product = new Product("Test", "Test Desc", 50, 2);
 
             // Act & Assert
-            Assert.Throws<InvalidOperationException>(() => product.ReduceStock(5));
+            Assert.Throws<CustomException>(() => product.ReduceStock(5));
         }
 
         [Fact]

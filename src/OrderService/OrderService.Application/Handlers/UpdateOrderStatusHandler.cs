@@ -1,5 +1,7 @@
 ﻿namespace OrderService.Application.Handlers
 {
+    using Common.Constants;
+    using Common.Exceptions;
     using MediatR;
     using OrderService.Application.Commands;
     using OrderService.Domain.Repositories;
@@ -20,7 +22,7 @@
             var order = await _orderRepo.GetByIdAsync(request.OrderId, cancellationToken);
             
             if (order is null) 
-                throw new KeyNotFoundException($"Order {request.OrderId} no encontrada.");
+                throw new CustomException(ErrorMessages.OrderDontExits(request.OrderId));
 
             order.UpdateStatus(request.NewStatus);
             await _orderRepo.UpdateAsync(order, cancellationToken);

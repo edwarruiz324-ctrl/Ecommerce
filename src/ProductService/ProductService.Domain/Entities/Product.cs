@@ -1,3 +1,6 @@
+using Common.Constants;
+using Common.Exceptions;
+
 namespace ProductService.Domain.Entities
 {
     public class Product
@@ -37,7 +40,7 @@ namespace ProductService.Domain.Entities
         public void ReduceStock(int quantity)
         {
             if (quantity > Stock)
-                throw new InvalidOperationException("No existe Stock suficiente.");
+                throw new CustomException(ErrorMessages.ProductWhitOutOfStock);
 
             Stock -= quantity;
             UpdatedAt = DateTime.UtcNow;

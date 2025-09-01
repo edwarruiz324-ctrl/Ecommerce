@@ -1,8 +1,8 @@
 ﻿namespace ProductService.Tests.ControllerTests
 {
-    using System.Collections.Generic;
-    using System.Threading;
-    using System.Threading.Tasks;
+    using Common;
+    using Common.Constants;
+    using FluentAssertions;
     using MediatR;
     using Microsoft.AspNetCore.Mvc;
     using Moq;
@@ -10,6 +10,9 @@
     using ProductService.Application.Dtos;
     using ProductService.Application.Queries;
     using ProductsService.Api.Controllers;
+    using System.Collections.Generic;
+    using System.Threading;
+    using System.Threading.Tasks;
     using Xunit;
 
     public class ProductsControllerTests
@@ -87,23 +90,34 @@
         public async Task GetAll_ShouldReturnOk_WithListOfProducts()
         {
             // Arrange
-            var expected = new List<ProductDto>
+            var filter = new Common.Models.PaginationFilter()
             {
-                new ProductDto(1, "P1", "D1", 10m, 5, DateTime.Now, DateTime.Now),
-                new ProductDto(2, "P2", "D2", 20m, 15, DateTime.Now, DateTime.Now),
+                PageNumber = 2,
+                PageSize = 3
+            };
+
+            var expected = new PagedResult<ProductDto> {
+                Items = new List<ProductDto>
+                {
+                    new ProductDto(1, "P1", "D1", 10m, 5, DateTime.Now, DateTime.Now),
+                    new ProductDto(2, "P2", "D2", 20m, 15, DateTime.Now, DateTime.Now),
+                },
+                 TotalItems = 2,
+                 PageNumber = 1,
             };
 
             _mediatorMock
-                .Setup(m => m.Send(It.IsAny<GetAllProductsQuery>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(expected);
+                .Setup(m => m.Send(/*new GetAllProductsQuery(1,2)*/It.IsAny<GetAllProductsQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(expected);
 
             // Act
-            var result = await _controller.GetAll();
+            var result = await _controller.GetAll(filter);
 
             // Assert
             var ok = Assert.IsType<OkObjectResult>(result.Result);
-            var list = Assert.IsAssignableFrom<IEnumerable<ProductDto>>(ok.Value);
-            Assert.NotEmpty(list);
+            var list = Assert.IsAssignableFrom<PagedResult<ProductDto>>(ok.Value);
+
+            Assert.NotNull(list);
+            Assert.NotEmpty(list!.Items);
         }
 
         [Fact]
@@ -141,10 +155,12 @@
             var request = new UpdateProductRequest { Id = 2 };
 
             // Act
+
             var result = await _controller.Update(1, request);
 
             // Assert
             var badRequest = Assert.IsType<BadRequestObjectResult>(result.Result);
+            Assert.Contains(ErrorMessages.IdNotMatch, badRequest!.Value!.ToString());
         }
 
         [Fact]

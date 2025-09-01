@@ -1,5 +1,7 @@
 ﻿namespace OrderService.Application.Handlers
 {
+    using Common.Constants;
+    using Common.Exceptions;
     using MediatR;
     using OrderService.Application.Commands;
     using OrderService.Application.Contracts;
@@ -30,15 +32,15 @@
 
                 // 1.Validar que el producto existe
                 if (prod is null)
-                    throw new InvalidOperationException($"El producto {itemDto.ProductId} no existe.");
+                    throw new CustomException(ErrorMessages.ProductDontExits(itemDto.ProductId));
 
                 // 2. Validar stock
                 if (itemDto.Quantity > prod.Stock)
-                    throw new InvalidOperationException($"Stock insuficiente para producto {itemDto.ProductId}.");
+                    throw new CustomException(ErrorMessages.ProductOutOfStock(itemDto.ProductId, itemDto.Quantity));
 
                 // 3. Validar precio
                 if (prod.Price <= 0)
-                    throw new InvalidOperationException($"El precio del producto {itemDto.ProductId} no es valido.");
+                    throw new CustomException(ErrorMessages.InvalidProductPrice(itemDto.ProductId));
 
                 // 4. Crear OrderItem
                 var orderItem = new OrderItem(itemDto.ProductId, itemDto.Quantity, prod.Price);

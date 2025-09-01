@@ -2,7 +2,6 @@ namespace OrderService.Api
 {
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.OpenApi.Models;
-    using OrderService.Api.Middlewares;
     using OrderService.Infrastructure;
     using OrderService.Application;
 
@@ -40,7 +39,7 @@ namespace OrderService.Api
             app.UseRouting();
 
             // Middleware de errores global
-            app.UseMiddleware<ExceptionMiddleware>();
+            app.UseMiddleware<Common.Middleware.ExceptionMiddleware>();
 
             if (!builder.Environment.IsEnvironment("Test"))
             {

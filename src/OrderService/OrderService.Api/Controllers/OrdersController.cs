@@ -1,5 +1,6 @@
 namespace OrderService.Api.Controllers
 {
+    using Common.Constants;
     using MediatR;
     using Microsoft.AspNetCore.Mvc;
     using OrderService.Application.Commands;
@@ -37,7 +38,7 @@ namespace OrderService.Api.Controllers
         {
             var command = new CreateOrderCommand(
             request.CustomerId,
-            request.Items.Select(i => new CreateOrderItemDto(i.ProductId, i.Quantity, 0/*, i.UnitPrice*/)).ToList());
+            request.Items.Select(i => new CreateOrderItemDto(i.ProductId, i.Quantity, 0)).ToList());
 
             var result = await _mediator.Send(command);
             return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
@@ -47,7 +48,7 @@ namespace OrderService.Api.Controllers
         public async Task<IActionResult> UpdateStatus(int id, [FromBody] UpdateOrderStatusRequest request)
         {
             if (id != request.OrderId)
-                return BadRequest("El ID no coincide");
+                return BadRequest(new { Message = ErrorMessages.IdNotMatch });
 
             var command = new UpdateOrderStatusCommand(request.OrderId, request.NewStatus);
 

@@ -1,3 +1,6 @@
+using Common.Constants;
+using Common.Exceptions;
+
 namespace OrderService.Domain.Entities
 {
     public sealed class Order
@@ -15,7 +18,7 @@ namespace OrderService.Domain.Entities
         public Order(string customerId)
         {
             if (string.IsNullOrWhiteSpace(customerId))
-                throw new ArgumentException("CustomerId es requerido.", nameof(customerId));
+                throw new ArgumentException(ErrorMessages.CustomerIdNotFound, nameof(customerId));
 
             CustomerId = customerId;
             Status = OrderStatus.Pending;
@@ -27,7 +30,7 @@ namespace OrderService.Domain.Entities
         public Order(string customerId, List<OrderItem> items)
         {
             if (string.IsNullOrWhiteSpace(customerId))
-                throw new ArgumentException("CustomerId es requerido.", nameof(customerId));
+                throw new ArgumentException(ErrorMessages.CustomerIdNotFound, nameof(customerId));
 
             CustomerId = customerId;
             Status = OrderStatus.Pending;
@@ -61,7 +64,7 @@ namespace OrderService.Domain.Entities
         {
             var item = Items.FirstOrDefault(i => i.ProductId == productId);
             if (item == null) 
-                throw new InvalidOperationException("Item no encontrado.");
+                throw new CustomException(ErrorMessages.ItemNotFound);
             
             Items.Remove(item);
             RecalculateTotal();
@@ -71,7 +74,7 @@ namespace OrderService.Domain.Entities
         {
             var item = Items.FirstOrDefault(i => i.ProductId == productId);
             if (item == null) 
-                throw new InvalidOperationException("Item no encontrado.");
+                throw new CustomException(ErrorMessages.ItemNotFound);
 
             item.UpdateQuantity(quantity);
             item.UpdateUnitPrice(unitPrice);
@@ -95,7 +98,7 @@ namespace OrderService.Domain.Entities
 
             var allowed = GetAllowedTransitions(Status);
             if (!allowed.Contains(newStatus))
-                throw new InvalidOperationException($"No se Puede cambiar el estado de {Status} a {newStatus}.");
+                throw new CustomException(ErrorMessages.UpdateStatusDontAlllow(Status.ToString(),newStatus.ToString()));
 
             Status = newStatus;
         }

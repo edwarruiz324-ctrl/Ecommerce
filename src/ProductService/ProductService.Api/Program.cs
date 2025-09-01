@@ -2,7 +2,6 @@ namespace ProductService.Api
 {
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.OpenApi.Models;
-    using ProductService.Api.Middlewares;
     using ProductService.Application;
     using ProductService.Infrastructure;
 
@@ -41,7 +40,7 @@ namespace ProductService.Api
             app.UseRouting();
 
             // Middleware de errores global
-            app.UseMiddleware<ExceptionMiddleware>();
+            app.UseMiddleware<Common.Middleware.ExceptionMiddleware>();
 
             if (!builder.Environment.IsEnvironment("Test"))
             {

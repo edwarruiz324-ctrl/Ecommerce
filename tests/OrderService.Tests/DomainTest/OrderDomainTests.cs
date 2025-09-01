@@ -1,5 +1,6 @@
 ﻿namespace OrderService.Tests.DomainTest
 {
+    using Common.Exceptions;
     using OrderService.Domain;
     using OrderService.Domain.Entities;
 
@@ -31,6 +32,7 @@
         public void AddItem_WithInvalidQuantity_ShouldThrow()
         {
             var order = new Order("c1");
+
             Assert.Throws<ArgumentException>(() => order.AddItem(100, 0, 5m));
         }
 
@@ -39,6 +41,7 @@
         {
             var order = new Order("c1");
             order.UpdateStatus(OrderStatus.Confirmed);
+
             Assert.Equal(OrderStatus.Confirmed, order.Status);
 
             order.UpdateStatus(OrderStatus.Processing);
@@ -49,9 +52,10 @@
         public void UpdateStatus_DisallowedTransition_ShouldThrow()
         {
             var order = new Order("c1");
+
             order.UpdateStatus(OrderStatus.Confirmed);
-            // cannot go from Confirmed to Delivered directly
-            Assert.Throws<InvalidOperationException>(() => order.UpdateStatus(OrderStatus.Delivered));
+
+            Assert.Throws<CustomException>(() => order.UpdateStatus(OrderStatus.Delivered));
         }
     }
 }

@@ -1,5 +1,9 @@
 namespace ProductsService.Api.Controllers
 {
+    using Common;
+    using Common.Constants;
+    using Common.Exceptions;
+    using Common.Models;
     using MediatR;
     using Microsoft.AspNetCore.Mvc;
     using ProductService.Application.Commands;
@@ -36,9 +40,9 @@ namespace ProductsService.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductDto>>> GetAll()
+        public async Task<ActionResult<PagedResult<ProductDto>>> GetAll([FromQuery] PaginationFilter filter)
         {
-            var products = await _mediator.Send(new GetAllProductsQuery());
+            var products = await _mediator.Send(new GetAllProductsQuery(filter));
             return Ok(products);
         }
 
@@ -46,7 +50,7 @@ namespace ProductsService.Api.Controllers
         public async Task<ActionResult<ProductDto>> Update(int id, [FromBody] UpdateProductRequest request)
         {
             if (id != request.Id)
-                return BadRequest(new { Message = "Los Identificadores no coinciden." });
+                return BadRequest(new { Message = ErrorMessages.IdNotMatch });
 
             try
             {

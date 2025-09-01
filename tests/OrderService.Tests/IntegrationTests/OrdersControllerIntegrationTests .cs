@@ -1,5 +1,6 @@
 ﻿namespace OrderService.Tests.IntegrationTests
 {
+    using Common.Constants;
     using FluentAssertions;
     using OrderService.Application.Dtos;
     using OrderService.Domain;
@@ -131,7 +132,7 @@
 
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
             var body = await response.Content.ReadAsStringAsync();
-            Assert.Contains("El precio del producto 3 no es valido", body);
+            Assert.Contains(ErrorMessages.InvalidProductPrice(3), body);
         }
 
         [Fact]
@@ -188,7 +189,7 @@
 
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
             var body = await response.Content.ReadAsStringAsync();
-            Assert.Contains("Stock insuficiente", body);
+            Assert.Contains(ErrorMessages.ProductOutOfStock(1, 5), body);
         }
     }
 }

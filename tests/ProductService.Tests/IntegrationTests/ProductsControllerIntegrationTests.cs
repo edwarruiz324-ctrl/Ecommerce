@@ -1,6 +1,7 @@
 ﻿
 namespace ProductService.Tests.IntegrationTests
 {
+    using Common;
     using ProductService.Application.Dtos;
     using System.Net.Http.Json;
 
@@ -71,11 +72,11 @@ namespace ProductService.Tests.IntegrationTests
             Assert.True(response.IsSuccessStatusCode,
                 $"GetAll failed. Body: {await response.Content.ReadAsStringAsync()}");
 
-            var products = await response.Content.ReadFromJsonAsync<List<ProductDto>>();
+            var products = await response.Content.ReadFromJsonAsync<PagedResult<ProductDto>>();
 
             // Assert
             Assert.NotNull(products);
-            Assert.NotEmpty(products);
+            Assert.NotEmpty(products!.Items);
         }
 
         [Fact]
