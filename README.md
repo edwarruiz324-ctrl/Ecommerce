@@ -38,7 +38,7 @@ dotnet ef database update -s src/OrderService/OrderService.Api -p src/OrderServi
 
 
 
-## Arquitectura del Proyecto Ecommerce (.NET 8 / .NET 9)
+## Arquitectura del Proyecto Ecommerce (.NET 8)
 
 Este proyecto implementa una solución de Ecommerce basada en microservicios, siguiendo los principios de Clean Architecture para garantizar mantenibilidad, escalabilidad y facilidad de pruebas.
 
