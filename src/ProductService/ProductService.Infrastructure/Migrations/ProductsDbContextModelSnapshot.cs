@@ -10,6 +10,7 @@ using ProductService.Infrastructure.Persistence;
 
 namespace ProductService.Infrastructure.Migrations
 {
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     [DbContext(typeof(ProductsDbContext))]
     partial class ProductsDbContextModelSnapshot : ModelSnapshot
     {

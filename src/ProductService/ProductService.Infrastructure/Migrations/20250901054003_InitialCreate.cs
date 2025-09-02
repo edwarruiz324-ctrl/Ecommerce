@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ProductService.Infrastructure.Migrations
 {
-    /// <inheritdoc />
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     public partial class InitialCreate : Migration
     {
         /// <inheritdoc />

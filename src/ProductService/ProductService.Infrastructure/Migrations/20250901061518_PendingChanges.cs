@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ProductService.Infrastructure.Migrations
 {
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     /// <inheritdoc />
     public partial class PendingChanges : Migration
     {

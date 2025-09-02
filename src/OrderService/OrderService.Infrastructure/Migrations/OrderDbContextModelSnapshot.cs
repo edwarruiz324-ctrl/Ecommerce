@@ -10,6 +10,7 @@ using OrderService.Infrastructure;
 
 namespace OrderService.Infrastructure.Migrations
 {
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     [DbContext(typeof(OrderDbContext))]
     partial class OrderDbContextModelSnapshot : ModelSnapshot
     {

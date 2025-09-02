@@ -11,6 +11,7 @@ using ProductService.Infrastructure.Persistence;
 
 namespace ProductService.Infrastructure.Migrations
 {
+
     [DbContext(typeof(ProductsDbContext))]
     [Migration("20250901061518_PendingChanges")]
     partial class PendingChanges

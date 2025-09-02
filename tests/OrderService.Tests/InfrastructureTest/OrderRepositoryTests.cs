@@ -1,11 +1,13 @@
 ﻿namespace OrderService.Tests.InfrastructureTest
 {
+    using Microsoft.Extensions.DependencyInjection;
     using OrderService.Domain;
     using OrderService.Domain.Entities;
     using OrderService.Infrastructure.Repositories;
 
     public class OrderRepositoryTests
     {
+        ////// Repo Tests for basic CRUD operations
         [Fact]
         public async Task AddAsync_ShouldPersistOrder()
         {
@@ -98,5 +100,6 @@
             // Assert
             Assert.Null(result);
         }
+
     }
 }

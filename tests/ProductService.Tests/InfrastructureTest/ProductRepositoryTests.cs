@@ -1,10 +1,15 @@
 ﻿namespace ProductsService.InfrastructureTest
 {
+    using Microsoft.Extensions.DependencyInjection;
     using ProductService.Domain.Entities;
+    using ProductService.Domain.Repositories;
     using ProductService.Infrastructure.Repositories;
 
     public class ProductRepositoryTests
     {
+
+        ////// Repo Tests for basic CRUD operations
+
         [Fact]
         public async Task AddAsync_ShouldPersistProduct()
         {

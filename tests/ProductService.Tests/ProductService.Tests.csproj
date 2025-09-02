@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\OrderService\OrderService.Infrastructure\OrderService.Infrastructure.csproj" />
     <ProjectReference Include="..\..\src\ProductService\ProductService.Api\ProductService.Api.csproj" />
     <ProjectReference Include="..\..\src\ProductService\ProductService.Application\ProductService.Application.csproj" />
     <ProjectReference Include="..\..\src\ProductService\ProductService.Domain\ProductService.Domain.csproj" />
@@ -29,6 +30,10 @@
 
   <ItemGroup>
     <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="TestResults\" />
   </ItemGroup>
 
 </Project>
