@@ -36,6 +36,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=OrderDb;User=sa;Password=Your_password123;TrustServerCertificate=True;
+      - ProductService__BaseUrl=http://productservice:80
       - ASPNETCORE_URLS=http://+:80
     ports:
       - "5002:80"
