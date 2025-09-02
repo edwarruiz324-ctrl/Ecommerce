@@ -1,0 +1,47 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    environment:
+      SA_PASSWORD: "Your_password123"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    networks:
+      - ecommerce-network
+
+  productservice:
+    build:
+      context: .
+      dockerfile: src/ProductService/ProductService.Api/Dockerfile
+    container_name: product-service
+    depends_on:
+      - sqlserver
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=ProductDb;User=sa;Password=Your_password123;TrustServerCertificate=True;
+      - ASPNETCORE_URLS=http://+:80
+    ports:
+      - "5001:80"
+    networks:
+      - ecommerce-network
+
+  orderservice:
+    build:
+      context: .
+      dockerfile: src/OrderService/OrderService.Api/Dockerfile
+    container_name: order-service
+    depends_on:
+      - sqlserver
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=OrderDb;User=sa;Password=Your_password123;TrustServerCertificate=True;
+      - ASPNETCORE_URLS=http://+:80
+    ports:
+      - "5002:80"
+    networks:
+      - ecommerce-network
+
+networks:
+  ecommerce-network:
+    driver: bridge

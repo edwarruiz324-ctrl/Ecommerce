@@ -5,9 +5,6 @@
     using OrderService.Application.Queries;
     using OrderService.Domain.Entities;
     using OrderService.Domain.Repositories;
-    using ProductService.Application.Queries;
-    using ProductService.Domain.Entities;
-    using ProductService.Domain.Repositories;
 
     public class GetOrderByIdHandlerTests
     {
@@ -31,11 +28,11 @@
         [Fact]
         public async Task Handle_ShouldReturnNull_WhenNotFound()
         {
-            var mockRepo = new Mock<IProductRepository>();
-            mockRepo.Setup(r => r.GetByIdAsync(It.IsAny<int>(), It.IsAny<CancellationToken>())).ReturnsAsync((Product?)null);
+            var mockRepo = new Mock<IOrderRepository>();
+            mockRepo.Setup(r => r.GetByIdAsync(It.IsAny<int>(), It.IsAny<CancellationToken>())).ReturnsAsync((Order?)null);
 
-            var handler = new GetProductByIdHandler(mockRepo.Object);
-            var query = new GetProductByIdQuery(1);
+            var handler = new GetOrderByIdHandler(mockRepo.Object);
+            var query = new GetOrderByIdQuery(1);
 
             var result = await handler.Handle(query, default);
 

@@ -1,9 +1,7 @@
 namespace OrderService.Infrastructure
 {
     using Microsoft.EntityFrameworkCore;
-    using OrderService.Domain;
     using OrderService.Domain.Entities;
-    using ProductService.Domain.Entities;
 
     public class OrderDbContext : DbContext
     {
